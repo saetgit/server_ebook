@@ -5,7 +5,7 @@ module.exports = {
     return (req, res, next) => {
 
       if (req.file) {
-        req.body.avatar = req.file;
+        req.body.img = req.file;
       }
 
       let { error, value } = schema.validate(req.body);
@@ -28,8 +28,8 @@ module.exports = {
       discount: Joi.string().required(),
       rate: Joi.string().required(),
       price: Joi.string().required(),
-      colorClass: Joi.string().optional().allow(null).allow(''),
-
+      colorClass: Joi.number().required(),
+      img: Joi.any().optional()
     }),
  
     

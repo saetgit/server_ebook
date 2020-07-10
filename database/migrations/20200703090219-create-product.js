@@ -26,6 +26,9 @@ module.exports = {
       price: {
         type: Sequelize.STRING
       },
+      img: {
+        type: Sequelize.STRING
+      },
       colorClass: {
         type: Sequelize.STRING
       },

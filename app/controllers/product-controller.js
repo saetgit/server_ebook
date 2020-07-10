@@ -24,23 +24,36 @@ module.exports = {
   },
   addProduct: async (req, res) => {
     try {
-      let { Title, discription, auther, discount, rate, price, colorClass } = req.value.body;
+      let { Title, description, auther, discount, img, rate, price, colorClass } = req.value.body;
+      let category_id = colorClass;
 
-      console.log('ooooooooooooooooooooooooooooooooooooooooooooooo',req.value.body);
+      // console.log(req.value.body);
       // return;
-      
+
 
       await db.Product.create(
         {
           Title,
-          discription,
+          description,
           auther,
           discount,
           rate,
+          img: img.filename,
           price,
-          colorClass
+          category_id
         },
-        { fields: ["Title", "discription", "auther", "discount", "rate", "price", "colorClass"] }
+        {
+          fields: [
+            "Title",
+            "description",
+            "auther",
+            "discount",
+            "rate",
+            "img",
+            "price",
+            "category_id"
+          ]
+        }
       );
 
       res.json({
@@ -57,4 +70,43 @@ module.exports = {
     }
   },
 
+  destroy: async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      let item = await db.Product.destroy({ where: { id } });
+
+      if (item) {
+        res.json({
+          success: true,
+          data: true,
+          message: `Product deleted!`
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        error: err,
+        message: `Error on server, Please try again!`
+      });
+    }
+  },
+  show: async (req, res) => {
+    try {
+      const id = req.params.id;
+      let item = await db.Product.findOne({ where: { id } });
+      if (item) {
+        res.json({
+          success: true,
+          data: item,
+          message: `Product !`
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: `Error on server, Please try again! Error:${error}`
+      });
+    }
+  },
 };

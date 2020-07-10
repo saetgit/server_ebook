@@ -7,11 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     discount: DataTypes.STRING,
     rate: DataTypes.STRING,
     price: DataTypes.STRING,
+    img: DataTypes.STRING,
     colorClass: DataTypes.STRING,
     category_id: DataTypes.INTEGER
   }, {});
   Product.associate = function(models) {
-    // associations can be defined here
+    Product.hasMany(models.Cart, { foreignKey: 'product_id' });
   };
   return Product;
 };
