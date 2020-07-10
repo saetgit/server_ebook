@@ -1,14 +1,12 @@
 module.exports = {
   development: {
     username: "root",
-    password: '',
-    // password: '1',
-    // password: "",
+    password: '1',
     database: "ebook_store",
     host: process.env.DB_HOST,
     dialect: "mysql",
     dialectOptions: {
-      timezone: 'Etc/GMT+4',
+      // timezone: 'Etc/GMT+4',
     },
   },
   test: {

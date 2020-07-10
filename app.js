@@ -30,7 +30,8 @@ class Server {
   initRoutes(app) {
     app.set("trust proxy", true);
     app.use("/api/users", require("./routes/user"));
-   
+    app.use("/api/products", require("./routes/product"));
+    app.use("/api/categories", require("./routes/category"));
 
     // Handle error when status code error is 500
     app.use((err, req, res, next) => {

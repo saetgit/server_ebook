@@ -7,6 +7,21 @@ const fs = require("fs");
 const { Op } = require("sequelize");
 
 module.exports = {
+  index: async (req, res) => {
+    try {
+      let users = await db.User.findAll({ where: { type: 'user' } });
+      res.json({
+        success: true,
+        data: users,
+        message: `Users list!`
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: `Error on server, Please try again! Error:${error}`
+      });
+    }
+  },
 
   signUp: async (req, res) => {
     try {
@@ -225,6 +240,81 @@ module.exports = {
     });
   },
 
+
+  update: async (req, res) => {
+    try {
+      let user = req.user;
+      let {
+        name,
+        family,
+        address,
+        website,
+        mobile,
+        phone,
+      } = req.value.body;
+
+      let result = await db.User.update(
+        { name, family, address, website, mobile, phone },
+        { where: { id: user.id } }
+      );
+      console.log('=====================================>', result);
+
+      if (result[0]) {
+        res.json({
+          success: true,
+          message: `The update has been successfully`
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `User not found!`
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        error: err,
+        message: `Error on server, Please try again! ERROR:${err}`
+      });
+    }
+  },
+
+  changeAvatar: async (req, res) => {
+    try {
+      let user = req.user;
+      let { avatar } = req.value.body;
+
+      const result = await db.User.update(
+        { avatar: avatar.filename },
+        { where: { id: user.id } }
+      );
+
+      if (result[0]) {
+        // Delete old avatar
+        const old_avatar = user.avatar.split("/").pop();
+        if (old_avatar !== "user.png")
+          fs.unlinkSync("assets/avatars/" + old_avatar);
+
+        res.json({
+          success: true,
+          message: `The update has been successfully`
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: `User not found!`
+        });
+      }
+
+    } catch (err) {
+      res.json({
+        success: false,
+        error: err,
+        message: `Error on server, Please try again!`
+      });
+    }
+  },
+
   updateUser: async (req, res) => {
     try {
       let id = req.params.id;
@@ -237,7 +327,7 @@ module.exports = {
         website,
         mobile,
         phone,
-        
+        about
       } = req.value.body;
 
       let result = await db.User.update(
@@ -250,7 +340,7 @@ module.exports = {
           website,
           mobile,
           phone,
-          
+          about
         },
         { where: { id } }
       );
@@ -274,4 +364,5 @@ module.exports = {
       });
     }
   },
+
 };

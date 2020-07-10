@@ -73,6 +73,25 @@ module.exports = {
         .allow("")
     }),
     
+    avatarSchema: Joi.object({
+      avatar: Joi.any().required()
+    }),
 
+    updateUserListSchema: Joi.object({
+      username: Joi.string().required(),
+      email: Joi.string().required(),
+      name: Joi.string().required(),
+      family: Joi.string().required(),
+      mobile: Joi.string().required(),
+      address: Joi.string()
+        .optional()
+        .allow(null)
+        .allow(""),
+      website: Joi.string()
+        .optional()
+        .allow(null)
+        .allow(""),
+    
+    }),
   }
 };

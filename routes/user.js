@@ -15,6 +15,7 @@ const passportAdminJWT = passport.authenticate("isAdminJWT", {
 const { validation, schema } = require("../validators/user-validator");
 // Controllers
 const UserController = require("../app/controllers/user-controller");
+router.get("/", passportJWT, UserController.index);
 router.get("/me", passportJWT, UserController.me);
 router.get("/logout", UserController.logout);
 router.post("/signup", validation(schema.signUpSchema), UserController.signUp);
@@ -24,6 +25,20 @@ router.post(
     passportSignIn,
     UserController.signIn
 );
+router.post(
+    "/update",
+    validation(schema.updateUserSchema),
+    passportJWT,
+    UserController.update
+);
+
+router.post(
+    "/avatar",
+    multer.single("avatar"),
+    validation(schema.avatarSchema),
+    passportJWT,
+    UserController.changeAvatar
+);
 
 router.put(
     "/update/:id",
@@ -31,6 +46,5 @@ router.put(
     passportJWT,
     UserController.updateUser
   );
-
-
+  
 module.exports = router;
