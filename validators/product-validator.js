@@ -31,13 +31,8 @@ module.exports = {
       colorClass: Joi.number().required(),
       img: Joi.any().optional()
     }),
- 
-    
-    
-    // avatarSchema: Joi.object({
-    //   avatar: Joi.any().required()
-    // }),
-
-  
+    addCartSchema: Joi.object({
+      product_id: Joi.number().required()
+    }),
   }
 };

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Product.associate = function(models) {
     Product.hasMany(models.Cart, { foreignKey: 'product_id' });
+    Product.belongsTo(models.Category, { foreignKey: 'category_id' });
   };
   return Product;
 };

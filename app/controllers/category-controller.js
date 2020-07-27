@@ -51,5 +51,28 @@ module.exports = {
       });
     }
   },
+  destroy: async (req, res) => {
+    try {
+      const id = req.params.id;
+      let item = await db.Category.destroy({ where: { id } });
+
+      if (item) {
+        res.json({
+          success: true,
+          data: true,
+          message: `Category deleted!`
+        });
+      }
+      
+
+
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        error: err,
+        message: `Error on server, Please try again! Error: ${err}`
+      });
+    }
+  },
 
 };

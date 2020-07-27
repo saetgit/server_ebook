@@ -20,5 +20,7 @@ router.post(
     passportJWT,
     categoryController.addCategory
 );
+router.delete("/:id", passportJWT, categoryController.destroy);
+
   
 module.exports = router;
